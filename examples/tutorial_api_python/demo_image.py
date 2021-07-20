@@ -31,6 +31,9 @@ params["disable_blending"] = False
 params["heatmaps_add_parts"] = False
 params["heatmaps_add_PAFs"] = False
 params["display"] = 0
+params["write_images"] = "output_images/"
+params["write_images_format"] = "jpg"
+params["write_json"] = "output_jsons/"
 #params["face"] = True
 #params["hand"] = True
 
