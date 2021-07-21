@@ -5,6 +5,7 @@ from sys import platform
 import argparse
 import numpy as np
 import json
+import time
 
 def display(datums,cap):
     datum = datums[0]
@@ -95,6 +96,7 @@ try:
     fps = cap.get(cv2.CAP_PROP_FPS)
     video=None
     count=0
+    start = time.time()
     while (cap.isOpened()):
         count=count+1
         hasframe, frame = cap.read()
@@ -112,6 +114,8 @@ try:
             video.write(opframe)
 
             # Display Image
+            # Enable to disable the visual display
+            no_display = False
             #print("Body keypoints: \n" + str(datum.poseKeypoints))
             #cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
             #key = cv2.waitKey(1)
@@ -121,10 +125,14 @@ try:
             #    cv2.destroyAllWindows()
             #    break
             printKeypoints(op.VectorDatum([datum]))
-            display(op.VectorDatum([datum]),cap)
+            if not no_display:
+                display(op.VectorDatum([datum]),cap)
 
         else:
             break
+
+    end = time.time()
+    print("OpenPose demo successfully finished. Total time: " + str(end - start) + " seconds")
 
 except Exception as e:
     print(e)
