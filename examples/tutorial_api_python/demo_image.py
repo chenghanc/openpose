@@ -7,8 +7,7 @@ import numpy as np
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 # Append to syspath the path to openpose python build
-#sys.path.append('../../python')
-sys.path.append('/home/nechk/NECHK-Results/helmet2/emotion/openpose/build/python')
+sys.path.append('../../python')
 
 try:
     from openpose import pyopenpose as op
