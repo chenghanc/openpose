@@ -97,8 +97,9 @@ try:
             # Display Image
             print("Body keypoints: \n" + str(datum.poseKeypoints))
             cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
-            cv2.waitKey(1)
-
+            key = cv2.waitKey(1)
+            if key & 0xFF == ord('q') or key == 27:
+                break
         else:
             break
 
