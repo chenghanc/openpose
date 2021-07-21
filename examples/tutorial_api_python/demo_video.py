@@ -6,6 +6,23 @@ import argparse
 import numpy as np
 import json
 
+def display(datums,cap):
+    datum = datums[0]
+    cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
+    key = cv2.waitKey(1)
+    if key & 0xFF == ord('q') or key == 27:
+        cap.release()
+        #video.release()
+        cv2.destroyAllWindows()
+    return (key == 27)
+
+def printKeypoints(datums):
+    datum = datums[0]
+    print("Body keypoints: \n" + str(datum.poseKeypoints))
+    print("Face keypoints: \n" + str(datum.faceKeypoints))
+    print("Left hand keypoints: \n" + str(datum.handKeypoints[0]))
+    print("Right hand keypoints: \n" + str(datum.handKeypoints[1]))
+
 # Import Openpose (Windows/Ubuntu/OSX)
 dir_path = os.path.dirname(os.path.realpath(__file__))
 try:
@@ -95,17 +112,19 @@ try:
             video.write(opframe)
 
             # Display Image
-            print("Body keypoints: \n" + str(datum.poseKeypoints))
-            cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
-            key = cv2.waitKey(1)
-            if key & 0xFF == ord('q') or key == 27:
-                break
+            #print("Body keypoints: \n" + str(datum.poseKeypoints))
+            #cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
+            #key = cv2.waitKey(1)
+            #if key & 0xFF == ord('q') or key == 27:
+            #    cap.release()
+            #    video.release()
+            #    cv2.destroyAllWindows()
+            #    break
+            printKeypoints(op.VectorDatum([datum]))
+            display(op.VectorDatum([datum]),cap)
+
         else:
             break
-
-    cap.release()
-    video.release()
-    cv2.destroyAllWindows()
 
 except Exception as e:
     print(e)
