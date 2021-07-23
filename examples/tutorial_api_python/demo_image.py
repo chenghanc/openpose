@@ -43,7 +43,7 @@ opWrapper.start()
 
 # Process Image
 datum = op.Datum()
-imageToProcess = cv2.imread('../../../examples/media/COCO_val2014_000000000459.jpg')
+imageToProcess = cv2.imread('../../../examples/media/two-little-girls-raising-their-hands-up.jpg')
 datum.cvInputData = imageToProcess
 opWrapper.emplaceAndPop(op.VectorDatum([datum]))
 
@@ -53,6 +53,21 @@ print("Body keypoints: \n" + str(datum.poseKeypoints[0][2][2]))
 #print("Face keypoints: \n" + str(datum.faceKeypoints))
 #print("Left hand keypoints: \n" + str(datum.handKeypoints[0]))
 #print("Right hand keypoints: \n" + str(datum.handKeypoints[1]))
+
+# Applications
+instances=len(datum.poseKeypoints)
+
+print("Number of instances per image:    ", instances)
+for i in range(0,instances):
+    print(i)
+    RWristY = str(datum.poseKeypoints[i][4][1])
+    LWristY = str(datum.poseKeypoints[i][7][1])
+    NoseY = str(datum.poseKeypoints[i][0][1])
+    if (RWristY or LWristY) < NoseY:
+        print("Hands Up")
+    else:
+        print("Normal")
+
 cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
 cv2.waitKey(0)
 
