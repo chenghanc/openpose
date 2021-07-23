@@ -43,14 +43,21 @@ opWrapper.start()
 
 # Process Image
 datum = op.Datum()
-imageToProcess = cv2.imread('../../../examples/media/COCO_val2014_000000000241.jpg')
+imageToProcess = cv2.imread('../../../examples/media/COCO_val2014_000000000459.jpg')
 datum.cvInputData = imageToProcess
 opWrapper.emplaceAndPop(op.VectorDatum([datum]))
 
 # Display Image
 print("Body keypoints: \n" + str(datum.poseKeypoints))
-print("Face keypoints: \n" + str(datum.faceKeypoints))
-print("Left hand keypoints: \n" + str(datum.handKeypoints[0]))
-print("Right hand keypoints: \n" + str(datum.handKeypoints[1]))
+#print("Face keypoints: \n" + str(datum.faceKeypoints))
+#print("Left hand keypoints: \n" + str(datum.handKeypoints[0]))
+#print("Right hand keypoints: \n" + str(datum.handKeypoints[1]))
 cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", datum.cvOutputData)
 cv2.waitKey(0)
+
+# Keypoint Ordering in Python
+poseModel = op.PoseModel.BODY_25B
+print("Get Body Part Mapping:   ", op.getPoseBodyPartMapping(poseModel), "\n")
+print("Get Number Body Parts:   ", op.getPoseNumberBodyParts(poseModel), "\n")
+print("Get Part Pairs:          ", op.getPosePartPairs(poseModel), "\n")
+print("Get Map Index:           ", op.getPoseMapIndex(poseModel), "\n")

@@ -134,6 +134,13 @@ try:
     end = time.time()
     print("OpenPose demo successfully finished. Total time: " + str(end - start) + " seconds")
 
+    # Keypoint Ordering in Python
+    poseModel = op.PoseModel.BODY_25B
+    print("Get Body Part Mapping:   ", op.getPoseBodyPartMapping(poseModel), "\n")
+    print("Get Number Body Parts:   ", op.getPoseNumberBodyParts(poseModel), "\n")
+    print("Get Part Pairs:          ", op.getPosePartPairs(poseModel), "\n")
+    print("Get Map Index:           ", op.getPoseMapIndex(poseModel), "\n")
+
 except Exception as e:
     print(e)
     sys.exit(-1)
