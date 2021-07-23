@@ -135,7 +135,7 @@ try:
     print("OpenPose demo successfully finished. Total time: " + str(end - start) + " seconds")
 
     # Keypoint Ordering in Python
-    poseModel = op.PoseModel.BODY_25B
+    poseModel = op.PoseModel.BODY_25
     print("Get Body Part Mapping:   ", op.getPoseBodyPartMapping(poseModel), "\n")
     print("Get Number Body Parts:   ", op.getPoseNumberBodyParts(poseModel), "\n")
     print("Get Part Pairs:          ", op.getPosePartPairs(poseModel), "\n")
