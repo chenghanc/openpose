@@ -33,7 +33,7 @@ params["logging_level"] = 4
 params["output_resolution"] = "-1x-1"
 params["net_resolution"] = "-1x368"
 params["model_folder"] = "../../../models/"
-params["model_pose"] = "BODY_25B"   # BODY_25
+params["model_pose"] = "BODY_25"   # BODY_25B
 params["alpha_pose"] = 0.6
 params["scale_gap"] = 0.3
 params["scale_number"] = 1
@@ -77,6 +77,24 @@ for imagePath in imagePaths:
 
     cv2.imwrite("output_images/frame_%d.jpg" % count, datum.cvOutputData)
     count += 1
+
+    # Start of Applications
+    instances=len(datum.poseKeypoints)
+
+    print("Number of instances per image:    ", instances)
+    for i in range(0,instances):
+        print("Instance : ", i)
+        RbaseY = datum.poseKeypoints[i][4][1]  # 4: 'RWrist' 3: 'RElbow' (0,1,2) = (x,y,c)
+        LbaseY = datum.poseKeypoints[i][7][1]  # 7: 'LWrist' 6: 'LElbow' (0,1,2) = (x,y,c)
+        NoseY  = datum.poseKeypoints[i][0][1]  # 0: 'Nose'               (0,1,2) = (x,y,c)
+        print("NoseY = {:.1f}, RbaseY = {:.1f}, LbaseY = {:.1f}".format(NoseY, RbaseY, LbaseY))
+        if (NoseY==0.0 or RbaseY==0.0 or LbaseY==0.0):
+            print("State : Not in ROI")
+        elif (RbaseY < NoseY or LbaseY < NoseY):
+            print("State : Hands Up")
+        else:
+            print("State : Normal" + "\n")
+    # End of Applications
 
 end = time.time()
 print("OpenPose demo successfully finished. Total time: " + str(end - start) + " seconds")
