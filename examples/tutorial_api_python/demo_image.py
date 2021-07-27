@@ -4,6 +4,7 @@ import os
 from sys import platform
 import argparse
 import numpy as np
+import math
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 # Append to syspath the path to openpose python build
@@ -43,7 +44,7 @@ opWrapper.start()
 
 # Process Image
 datum = op.Datum()
-imageToProcess = cv2.imread('../../../examples/media/u2.jpg')
+imageToProcess = cv2.imread('../../../examples/media/falling1.jpg')
 datum.cvInputData = imageToProcess
 opWrapper.emplaceAndPop(op.VectorDatum([datum]))
 
@@ -63,6 +64,23 @@ for i in range(0,instances):
     RbaseY = datum.poseKeypoints[i][4][1]  # 4: 'RWrist' 3: 'RElbow' (0,1,2) = (x,y,c)
     LbaseY = datum.poseKeypoints[i][7][1]  # 7: 'LWrist' 6: 'LElbow' (0,1,2) = (x,y,c)
     NoseY  = datum.poseKeypoints[i][0][1]  # 0: 'Nose'               (0,1,2) = (x,y,c)
+    NoseX  = datum.poseKeypoints[i][0][0]  # 0: 'Nose'               (0,1,2) = (x,y,c)
+    RAnkleY =datum.poseKeypoints[i][11][1] # 11:'RAnkle'             (0,1,2) = (x,y,c)
+    RAnkleX =datum.poseKeypoints[i][11][0] # 11:'RAnkle'             (0,1,2) = (x,y,c)
+    LAnkleY =datum.poseKeypoints[i][14][1] # 14:'LAnkle'             (0,1,2) = (x,y,c)
+    LAnkleX =datum.poseKeypoints[i][14][0] # 14:'LAnkle'             (0,1,2) = (x,y,c)
+    s11= (RAnkleX, RAnkleY)
+    s14= (LAnkleX, LAnkleY)
+    s0 = (NoseX, NoseY)
+    barX = (RAnkleX + LAnkleX) * .5
+    barY = (RAnkleY + LAnkleY) * .5
+    theta= np.arctan(abs((NoseY-barY)/(NoseX-barX))) # angle in degree = angle in radian * 180/pi
+    theta=theta*(180/np.pi)
+    #print(math.degrees(math.pi/2))
+    #print(math.degrees(theta))
+    print(s11, s14)
+    print("NoseX = {:.1f}, NoseY = {:.1f}, barX = {:.1f}, barY = {:.1f}, A = {:.3f}".format(NoseX, NoseY, barX, barY, theta))
+
     print("NoseY = {:.1f}, RbaseY = {:.1f}, LbaseY = {:.1f}".format(NoseY, RbaseY, LbaseY))
     if (NoseY==0.0 or RbaseY==0.0 or LbaseY==0.0):
         print("State : Not in ROI")
