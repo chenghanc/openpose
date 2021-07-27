@@ -319,6 +319,7 @@ namespace op
         m.def("init_argv", &init_argv, "Init Function");
         m.def("get_gpu_number", &getGpuNumber, "Get Total GPU");
         m.def("get_images_on_directory", &getImagesFromDirectory, "Get Images On Directory");
+        m.def("get_keypoints_rectangle", &op::getKeypointsRectangle<float>, "Get Keypoints From Rectangle");
 
         // Pose Mapping
         // Code example in doc/02_output.md, section Keypoint Ordering in C++/Python
