@@ -147,11 +147,21 @@ try:
                 s0 = (NoseX, NoseY)
                 barX = (RAnkleX + LAnkleX) * .5
                 barY = (RAnkleY + LAnkleY) * .5
+                # Fall
+                # The angle between the centerline of the body and the ground
                 theta= np.arctan(abs((NoseY-barY)/(NoseX-barX))) # angle in degree = angle in radian * 180/pi
                 theta=theta*(180/np.pi)
+                theta0=45
                 print(s11, s14)
                 print("NoseX = {:.1f}, NoseY = {:.1f}, barX = {:.1f}, barY = {:.1f}, A = {:.3f}".format(NoseX, NoseY, barX, barY, theta))
-
+                if (NoseX==0.0 and NoseY==0.0):
+                    print("State : Not in ROI")
+                elif (theta < theta0):
+                    print("State : Fall")
+                else:
+                    print("State : Normal")
+                '''
+                # Hands Up
                 print("NoseY = {:.1f}, RbaseY = {:.1f}, LbaseY = {:.1f}".format(NoseY, RbaseY, LbaseY))
                 if (NoseY==0.0 or RbaseY==0.0 or LbaseY==0.0):
                     print("State : Not in ROI")
@@ -159,6 +169,7 @@ try:
                     print("State : Hands Up")
                 else:
                     print("State : Normal" + "\n")
+                '''
             # End of Applications
 
         else:
