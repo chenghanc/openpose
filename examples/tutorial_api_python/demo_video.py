@@ -97,11 +97,13 @@ try:
     video=None
     count=0
     start = time.time()
+    frame_num = 0
     while (cap.isOpened()):
         count=count+1
         hasframe, frame = cap.read()
 
         if hasframe== True:
+            start_fps = time.time()
             datum.cvInputData = frame
             datum.name=str(count)
             opWrapper.emplaceAndPop(op.VectorDatum([datum]))
@@ -172,11 +174,18 @@ try:
                 '''
             # End of Applications
 
+            end_fps = time.time()
+            print("FPS: " + str(round(1 / (end_fps - start_fps),2)))
+
         else:
             break
 
+        frame_num += 1
+
     end = time.time()
-    print("OpenPose demo successfully finished. Total time: " + str(end - start) + " seconds")
+    optime = round(end-start, 2)
+    print("OpenPose Time: " + str(optime) + " seconds")
+    print("FPS: " + str(round(frame_num/optime,2)))
 
     # Keypoint Ordering in Python
     poseModel = op.PoseModel.BODY_25
