@@ -13,7 +13,7 @@ This folder provides examples to the basic OpenPose Python API. The analogous C+
   - A `pyopenpose.cpython-38-x86_64-linux-gnu.so` file will be created in `build/python/openpose` directory
   - Note that `*-38-*.so` filename has to match your python version
 
-# Test And Develop
+# Test and Develop
 
 - Duplicate and rename any of the existing sample files in `examples/tutorial_api_python/` within that folder and start building in there. Need to recompile OpenPose every time you make changes to your Python files so they are copied over the `build/` folder
 - Change directory to `cd build/examples/tutorial_api_python`
@@ -31,8 +31,8 @@ This folder provides examples to the basic OpenPose Python API. The analogous C+
 
 <details><summary><b>CLICK ME</b> - Compile OpenPose from Source</summary>
 
-- [Prerequisites](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/1_prerequisites.md#ubuntu-prerequisites)
-- [Compiling](https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation/0_index.md#compiling-and-running-openpose-from-source)
+- [Prerequisites](https://github.com/chenghanc/openpose/blob/master/doc/installation/1_prerequisites.md#ubuntu-prerequisites)
+- [Compiling](https://github.com/chenghanc/openpose/blob/master/doc/installation/0_index.md#compiling-and-running-openpose-from-source)
 
 </details>
 
