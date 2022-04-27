@@ -2,8 +2,8 @@ import sys
 import os
 from sys import platform
 import numpy as np
-from imutils.video import FPS
 import cv2
+import argparse
 import time
 
 class Main:
@@ -41,7 +41,6 @@ class Main:
 
     def start(self):
         
-        #fps = FPS().start()
         start = time.time()
         video=None
         count=0
@@ -72,6 +71,7 @@ class Main:
                 
                 if hasframe == True:
                     
+                    start_fps = time.time()
                     datum.cvInputData = frame
                     datum.name=str(count)
                     opWrapper.emplaceAndPop(op.VectorDatum([datum]))
@@ -129,6 +129,13 @@ class Main:
                         else:
                             print("State : Normal" + "\n")
 
+                    end_fps = time.time()
+                    FPS = round(1 / (end_fps - start_fps),2)
+                    print("FPS: " + str(FPS))
+                    cv2.putText(opframe, 'FPS: {0:.2f}'.format(FPS), (30, 90),cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    # Change Window Size
+                    cv2.namedWindow('OpenPose 1.7.0 - Tutorial Python API',0)
+                    cv2.resizeWindow('OpenPose 1.7.0 - Tutorial Python API',1080,800)
                     cv2.imshow("OpenPose 1.7.0 - Tutorial Python API", opframe)
                     video.write(opframe)
                     # End of Applications
@@ -140,6 +147,8 @@ class Main:
                 else:
                     break
 
+            end = time.time()
+            print("Demo successfully finished. Total time: " + str(end - start) + " seconds")
             self.stream.release()
             cv2.destroyAllWindows()
 
@@ -170,11 +179,19 @@ if __name__ == "__main__":
         print('Error: OpenPose library could not be found. Did you enable `BUILD_PYTHON` in CMake and have this Python script in the right folder?')
         raise e
     
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-s", "--source", required=True, help="Source to process")
+    args = vars(ap.parse_args())
+
+    source = args["source"]
+
+    '''
     # read video
     if len(sys.argv) > 1:
         source = str(sys.argv[1])
     else:
         source = r'/path/to/Part4/test1.mp4'
+    '''
 
     main = Main(source=source)
     main.start()
