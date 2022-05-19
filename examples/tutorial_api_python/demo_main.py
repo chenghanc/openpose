@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 import argparse
 import time
+import math
 
 class Main:
 
@@ -38,6 +39,63 @@ class Main:
         #params["hand"] = True
         #params["number_people_max"] = 1
         return params
+
+    def angle_between_points(self, p0, p1, p2):
+        # Calculation angle
+        a = (p1[0]-p0[0])**2 + (p1[1]-p0[1])**2
+        b = (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2
+        c = (p2[0]-p0[0])**2 + (p2[1]-p0[1])**2
+        if a * b == 0:
+            return -1.0
+
+        return  math.acos( (a+b-c) / math.sqrt(4*a*b) ) * 180 /math.pi
+
+    def get_angle_point(self, human, pos):
+        # Return the keys of each part
+        pnts = []
+
+        if pos == 'left_knee':
+            pos_list = (12,13,14)
+
+        elif pos == 'right_knee':
+            pos_list = (9,10,11)
+        else:
+            print('Unknown  [%s]', pos)
+            return pnts
+
+        for i in range(3):
+            if human[pos_list[i]][2] <= 0.1:
+                print('component [%d] incomplete'%(pos_list[i]))
+                return pnts
+
+            pnts.append((int( human[pos_list[i]][0]), int( human[pos_list[i]][1])))
+
+        return pnts
+
+    def angle_left_knee(self, human):
+        pnts = self.get_angle_point(human, 'left_knee')
+        if len(pnts) != 3:
+            print('component incomplete')
+            return
+
+        angle = 0
+        if pnts is not None:
+            angle = self.angle_between_points(pnts[0], pnts[1], pnts[2])
+            print('left knee angle:%f'%(angle))
+        return angle
+
+    def angle_right_knee(self, human):
+        pnts = self.get_angle_point(human, 'right_knee')
+        if len(pnts) != 3:
+            print('component incomplete')
+            return
+
+        angle = 0
+        if pnts is not None:
+            angle = self.angle_between_points(pnts[0], pnts[1], pnts[2])
+            print('right knee angle:%f'%(angle))
+        return angle
+
 
     def start(self):
         
