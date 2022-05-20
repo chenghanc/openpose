@@ -40,6 +40,17 @@ class Main:
         #params["number_people_max"] = 1
         return params
 
+    # hypot(x, y) returns a float value having Euclidean norm: sqrt(x*x + y*y)
+    # hypot(3, 4) returns 5.0
+
+    # Pythagorean theorem
+    def length_between_points(self, p1, p2):
+        # Distance between 2 points
+        return math.hypot(p1[0]-p2[0], p1[1]-p2[1])
+
+    def calc_distance(self, p1, p2):
+        return math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+
     def angle_between_points(self, p0, p1, p2):
         # Calculation angle
         a = (p1[0]-p0[0])**2 + (p1[1]-p0[1])**2
@@ -149,6 +160,10 @@ class Main:
                     print("Number of instances per image:    ", instances)
                     for i in range(0,instances):
                         print("Instance : ", i)
+                        # Left/Right Knee Angle
+                        Lknee = self.angle_left_knee(datum.poseKeypoints[i])
+                        Rknee = self.angle_right_knee(datum.poseKeypoints[i])
+                        # Left/Right Knee Angle
                         RbaseY = datum.poseKeypoints[i][4][1]  # 4: 'RWrist' 3: 'RElbow' (0,1,2) = (x,y,c)
                         LbaseY = datum.poseKeypoints[i][7][1]  # 7: 'LWrist' 6: 'LElbow' (0,1,2) = (x,y,c)
                         NoseY  = datum.poseKeypoints[i][0][1]  # 0: 'Nose'               (0,1,2) = (x,y,c)
